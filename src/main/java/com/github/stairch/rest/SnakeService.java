@@ -115,9 +115,9 @@ public class SnakeService {
                     JsonArray asJsonArray = c.getAsJsonArray();
                     int x = asJsonArray.get(0).getAsInt();
                     int y = asJsonArray.get(1).getAsInt();
-                    if(meX[0] != 0)
+                    if(meX[0] == 0)
                         meX[0] = x;
-                    if(meY[0] != 0)
+                    if(meY[0] == 0)
                         meY[0] = y;
                     gamearea.getField(x,y).setIsBusy(true);
                 });
