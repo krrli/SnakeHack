@@ -70,13 +70,11 @@ public class SnakeService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/move")
     public final Response move(final String startRequestDTO) {
-        //System.out.println(startRequestDTO);
-        /*
-        JsonParser jsonParser = new JsonParser();
-        JsonObject jo = (JsonObject)jsonParser.parse(startRequestDTO);
-        //String bla = gson.toJson(startRequestDTO);
-        System.out.println(jo);
-*/
+
+
+
+        final int[] meX = {0};
+        final int[] meY = {0};
 
         GsonBuilder gson_builder = new GsonBuilder();
         gson_builder.registerTypeAdapter(
@@ -94,18 +92,15 @@ public class SnakeService {
 
         Gson gson = gson_builder.create();
         JsonElement element = gson.fromJson(startRequestDTO, JsonElement.class);
-        JsonObject object = element.getAsJsonObject();
-        System.out.println(object);
+        JsonObject moveRequest = element.getAsJsonObject();
+        System.out.println(moveRequest);
 
-        Gamearea gamearea = new Gamearea(object.get("height").getAsInt(), object.get("width").getAsInt());
+        Gamearea gamearea = new Gamearea(moveRequest.get("height").getAsInt(), moveRequest.get("width").getAsInt());
         gamearea.initGameField();
 
 
 
-        final int[] meX = {0};
-        final int[] meY = {0};
-
-        JsonElement snakes = object.get("snakes");
+        JsonElement snakes = moveRequest.get("snakes");
         if(snakes != null){
 
             JsonArray snakesAsJsonArray = snakes.getAsJsonArray();
@@ -130,7 +125,7 @@ public class SnakeService {
         currentPosition.setLocation(meX[0], meY[0]);
 
 
-        JsonElement food = object.get("food");
+        JsonElement food = moveRequest.get("food");
         if(food != null){
 
             JsonArray foodAsJsonArray = food.getAsJsonArray();
@@ -143,6 +138,15 @@ public class SnakeService {
                 //}
             }
             );
+        }
+
+        JsonElement deadSnake = moveRequest.get("dead_snakes");
+        if(deadSnake != null){
+            JsonArray deadSnakesAsJsonArray = deadSnake.getAsJsonArray();
+            deadSnakesAsJsonArray.forEach(d ->{
+                JsonArray deadSnakes = d.getAsJsonArray();
+
+            });
         }
 
         NextMoveFinder nextMoveFinder = new NextMoveFinder(new PathFinder());
