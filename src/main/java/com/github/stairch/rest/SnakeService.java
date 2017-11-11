@@ -56,7 +56,7 @@ public class SnakeService {
         final StartResponseDTO startResponse = new StartResponseDTO();
         startResponse.setColor("black");
         startResponse.setHeadUrl(BASE_URI + "static/head.png");
-        startResponse.setName("STAIR Java Snake Tüdlü");
+        startResponse.setName("Tüdlü");
         startResponse.setTaunt("Meep meep");
 
         startResponse.setHeadType(HeadType.getPixel());
@@ -107,10 +107,14 @@ public class SnakeService {
                     int x = asJsonArray.get(0).getAsInt();
                     int y = asJsonArray.get(1).getAsInt();
 
-                    if(meX[0] == 0)
-                        meX[0] = x;
-                    if(meY[0] == 0)
-                        meY[0] = y;
+                    if(s.getAsJsonObject().get("name").getAsString().equals("Tüdlü")){
+
+                        if(meX[0] == 0)
+                            meX[0] = x;
+                        if(meY[0] == 0)
+                            meY[0] = y;
+
+                    }
                     gamearea.getField(x,y).setIsBusy(true);
                     System.out.println("bisi x: " + x + " y: " + y);
                 });
