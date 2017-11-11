@@ -141,7 +141,7 @@ public class SnakeService {
             );
         }
 
-        JsonElement deadSnake = moveRequest.get("dead_snakes");
+        /*JsonElement deadSnake = moveRequest.get("dead_snakes");
         if(deadSnake != null){
             JsonArray deadSnakesAsJsonArray = deadSnake.getAsJsonArray();
             deadSnakesAsJsonArray.forEach(d ->{
@@ -162,7 +162,7 @@ public class SnakeService {
 
 
             });
-        }
+        }*/
 
         NextMoveFinder nextMoveFinder = new NextMoveFinder(new PathFinder());
         Move move = nextMoveFinder.findNextMove(gamearea.getGameArea(), new PlayerDestinationBundle(currentPosition, destination));
