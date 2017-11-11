@@ -34,6 +34,8 @@ public class SnakeService {
     public final Response start(final StartRequestDTO startRequestDTO) {
         System.out.println(startRequestDTO);
 
+
+
         final StartResponseDTO startResponse = new StartResponseDTO();
         startResponse.setColor("black");
         startResponse.setHeadUrl(BASE_URI + "static/head.png");
@@ -50,7 +52,7 @@ public class SnakeService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/move")
-    public final Response move(final StartRequestDTO startRequestDTO) {
+    public final Response move(final MoveRequestDTO startRequestDTO) {
         System.out.println(startRequestDTO);
 
         final MoveResponseDTO moveResponse = new MoveResponseDTO();
