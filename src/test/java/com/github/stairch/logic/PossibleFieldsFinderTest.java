@@ -4,6 +4,7 @@ import com.github.stairch.data.GameField;
 import com.github.stairch.data.PlayerDestinationBundle;
 import org.junit.Test;
 
+import javax.naming.OperationNotSupportedException;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ import static org.junit.Assert.*;
 public class PossibleFieldsFinderTest {
 
     @Test
-    public void Test_FindPossibleFields(){
+    public void Test_FindPossibleFields() throws OperationNotSupportedException {
         // arrange
         PossibleFieldsFinder testee = new PossibleFieldsFinder();
         GameField[][] gameArea = new GameField[][]{
