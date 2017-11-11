@@ -50,3 +50,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 \.idea/
+
+src/main/java/com/github/stairch/RestInPeace\.java
