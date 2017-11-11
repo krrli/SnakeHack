@@ -3,12 +3,13 @@ package com.github.stairch.logic;
 import com.github.stairch.data.GameField;
 import com.github.stairch.data.PlayerDestinationBundle;
 
+import javax.naming.OperationNotSupportedException;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class PossibleFieldsFinder {
-    public ArrayList<GameField> findPossibleFields(GameField[][] gameArea, PlayerDestinationBundle bundle) {
+    public ArrayList<GameField> findPossibleFields(GameField[][] gameArea, PlayerDestinationBundle bundle) throws OperationNotSupportedException {
         ArrayList<GameField> closedList = new ArrayList<>();
         ArrayList<GameField> openList = new ArrayList<>();
 
@@ -17,7 +18,7 @@ public class PossibleFieldsFinder {
         return closedList;
     }
 
-    private void findNextField(ArrayList<GameField> closedList, ArrayList<GameField> openList, PlayerDestinationBundle bundle, GameField[][] gameArea) {
+    private void findNextField(ArrayList<GameField> closedList, ArrayList<GameField> openList, PlayerDestinationBundle bundle, GameField[][] gameArea) throws OperationNotSupportedException {
         closedList.add(AreaHelper.GetGameFieldByPosition(gameArea, bundle.getCurrentPosition()));
 
         this.lookForWalkableFields(closedList, openList, bundle.getCurrentPosition(), gameArea);
@@ -46,7 +47,7 @@ public class PossibleFieldsFinder {
         return openList.stream().findFirst().get();
     }
 
-    private void lookForWalkableFields(ArrayList<GameField> closedList, ArrayList<GameField> openList, Point player, GameField[][] gameArea) {
+    private void lookForWalkableFields(ArrayList<GameField> closedList, ArrayList<GameField> openList, Point player, GameField[][] gameArea) throws OperationNotSupportedException {
         GameField currentPosition = AreaHelper.GetGameFieldByPosition(gameArea ,player);
 
         if (player.getX() > 0)
@@ -73,10 +74,10 @@ public class PossibleFieldsFinder {
             this.addFieldToListIfNotAlreadyChoosenAndFree(openList, field, currentPosition, closedList);
         }
 
-        /*if (openList.stream().findAny().isPresent() == false)
+        if (openList.stream().findAny().isPresent() == false)
         {
             throw new OperationNotSupportedException("No way found");
-        }*/
+        }
     }
 
     private void addFieldToListIfNotAlreadyChoosenAndFree(ArrayList<GameField> openList, GameField field, GameField currentPosition, ArrayList<GameField> closedList) {
