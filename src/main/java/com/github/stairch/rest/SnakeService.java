@@ -45,7 +45,7 @@ public class SnakeService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/start")
     public final Response start(final StartRequestDTO startRequestDTO) {
-        System.out.println(startRequestDTO);
+        //System.out.println(startRequestDTO);
 
         /*
         if(gamearea == null){
@@ -56,7 +56,7 @@ public class SnakeService {
         final StartResponseDTO startResponse = new StartResponseDTO();
         startResponse.setColor("black");
         startResponse.setHeadUrl(BASE_URI + "static/head.png");
-        startResponse.setName("STAIR Java Snake");
+        startResponse.setName("STAIR Java Snake Tüdlü");
         startResponse.setTaunt("Meep meep");
 
         startResponse.setHeadType(HeadType.getPixel());
@@ -70,8 +70,6 @@ public class SnakeService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/move")
     public final Response move(final String startRequestDTO) {
-
-
 
         final int[] meX = {0};
         final int[] meY = {0};
@@ -93,12 +91,10 @@ public class SnakeService {
         Gson gson = gson_builder.create();
         JsonElement element = gson.fromJson(startRequestDTO, JsonElement.class);
         JsonObject moveRequest = element.getAsJsonObject();
-        System.out.println(moveRequest);
+        //System.out.println(moveRequest);
 
         Gamearea gamearea = new Gamearea(moveRequest.get("height").getAsInt(), moveRequest.get("width").getAsInt());
         gamearea.initGameField();
-
-
 
         JsonElement snakes = moveRequest.get("snakes");
         if(snakes != null){
@@ -116,6 +112,7 @@ public class SnakeService {
                     if(meY[0] == 0)
                         meY[0] = y;
                     gamearea.getField(x,y).setIsBusy(true);
+                    System.out.println("bisi x: " + x + " y: " + y);
                 });
             });
         }
@@ -145,6 +142,20 @@ public class SnakeService {
             JsonArray deadSnakesAsJsonArray = deadSnake.getAsJsonArray();
             deadSnakesAsJsonArray.forEach(d ->{
                 JsonArray deadSnakes = d.getAsJsonArray();
+
+                JsonArray coords = d.getAsJsonObject().getAsJsonArray("coords");
+                coords.forEach(c -> {
+                    JsonArray asJsonArray = c.getAsJsonArray();
+                    int x = asJsonArray.get(0).getAsInt();
+                    int y = asJsonArray.get(1).getAsInt();
+
+                    if(x < 0 || y <0)
+                        return;
+
+                    gamearea.getField(x,y).setIsBusy(true);
+                });
+
+
 
             });
         }
