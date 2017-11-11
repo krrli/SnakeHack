@@ -1,37 +1,19 @@
 package com.github.stairch.data;
 
+import java.awt.*;
+
 public class GameField {
+    private final int MOVEMENT_COST = 1;
     private final int x;
     private final  int y;
     private final boolean isBusy;
-    private int h;
+    private GameField previousGameField;
     private int g;
-    private int f;
 
     public GameField(int x, int y, boolean isBusy){
         this.x = x;
         this.y = y;
         this.isBusy = isBusy;
-    }
-
-    public int getH() {
-        return h;
-    }
-
-    public void setH(int h) {
-        this.h = h;
-    }
-
-    public int getG() {
-        return g;
-    }
-
-    public void setG(int g) {
-        this.g = g;
-    }
-
-    public void calculateF(){
-        this.f = this.g+ this.h;
     }
 
     public int getY() {
@@ -43,4 +25,36 @@ public class GameField {
         return x;
     }
 
+    /*public boolean movementCostAreLower(GameField possiblePreviousField) {
+        return possiblePreviousField.getG() + this.MOVEMENT_COST < ;
+    }*/
+
+    public GameField getPreviousGameField() {
+        return previousGameField;
+    }
+
+    public void setPreviousGameField(GameField previousGameField) {
+        this.previousGameField = previousGameField;
+    }
+
+    public int calculateF(Point destination) {
+        int h = this.getEstimatedMovementToDestination(destination);
+        int g = this.getPreviousGameField().getG() + this.MOVEMENT_COST;
+        return h + g;
+    }
+
+    private int getEstimatedMovementToDestination(Point destination) {
+        int xDiff = (int) Math.abs(this.getX() - destination.getX());
+        int yDiff = (int) Math.abs(this.getY() - destination.getY());
+
+        return xDiff + yDiff;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public boolean getIsBusy() {
+        return isBusy;
+    }
 }

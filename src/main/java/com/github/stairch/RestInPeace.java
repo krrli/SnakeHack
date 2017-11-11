@@ -26,7 +26,7 @@ public class RestInPeace {
       protocol = "http://";
       host = Optional.ofNullable(System.getenv("HOSTNAME"));
       port = Optional.ofNullable(System.getenv("PORT"));
-        BASE_URI = protocol + host.orElse("0.0.0.0") + ":" + port.orElse("4242") + "/" ;
+        BASE_URI = protocol + host.orElse("10.155.123.87") + ":" + port.orElse("4242") + "/" ;
     }
     
     /**
@@ -48,6 +48,8 @@ public class RestInPeace {
         StaticHttpHandler staticHttpHandler = new StaticHttpHandler("src/main/java/com/github/stairch/static");
         server.getServerConfiguration().addHttpHandler(staticHttpHandler, "/static");
         System.out.println("Your java starter snake is available at " + BASE_URI + "\nHit ctrl+c to stop it...");
+
     }
+
 }
 
