@@ -9,25 +9,25 @@ import java.awt.*;
 
 import static org.junit.Assert.*;
 
-public class PathFinderTest {
+public class NextMoveFinderTest {
     @Test
     public void TestFindNextMove(){
         // arrange
         NextMoveFinder testee = new NextMoveFinder(new PathFinder());
         GameField[][] gameArea = new GameField[][]{
-            { new GameField(0,0, false), new GameField(1,0, true), new GameField(2,0, false) },
-            { new GameField(0,1, false), new GameField(1,1, false), new GameField(2,2, false)},
+            { new GameField(0,0, false), new GameField(1,0, false), new GameField(2,0, false) },
+            { new GameField(0,1, true), new GameField(1,1, false), new GameField(2,1, false)},
             { new GameField(0,2, false), new GameField(1,2, false), new GameField(2,2, false)} ,
         };
         PlayerDestinationBundle bundle = new PlayerDestinationBundle(
-                new Point(0, 0),
-                new Point(3, 3));
+                new Point(2, 2),
+                new Point(2, 0));
 
         // act
         Move nextMove = testee.findNextMove(gameArea, bundle);
 
         // assert
-        assertEquals(Move.down, nextMove);
+        assertEquals(Move.up, nextMove);
 
     }
 }

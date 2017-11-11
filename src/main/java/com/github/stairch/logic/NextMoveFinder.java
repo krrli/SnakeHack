@@ -16,10 +16,24 @@ public class NextMoveFinder {
     public Move findNextMove(GameField[][] gameArea, PlayerDestinationBundle bundle) {
         ArrayList<GameField> pathToDestination = this.pathFinder.findPathToDestination(gameArea, bundle);
 
-        return this.findMoveAccordingToField(pathToDestination.stream().findFirst().get());
+        GameField currentGameField = pathToDestination.get(0);
+        GameField nextGameField = pathToDestination.get(1);
+        return this.findMoveAccordingToField(currentGameField, nextGameField);
     }
 
-    private Move findMoveAccordingToField(GameField gameField) {
+    private Move findMoveAccordingToField(GameField currentGameField, GameField nextGameField) {
+        if(currentGameField.getX() == nextGameField.getX() && currentGameField.getY() - 1 == nextGameField.getY()){
+            return Move.up;
+        }
+        if(currentGameField.getX() == nextGameField.getX() && currentGameField.getY() + 1 == nextGameField.getY()){
+            return Move.down;
+        }
+        else if(currentGameField.getX() + 1 == nextGameField.getX() && currentGameField.getY() == nextGameField.getY()){
+            return Move.right;
+        }
+        if(currentGameField.getX() - 1 == nextGameField.getX() && currentGameField.getY() == nextGameField.getY()){
+            return Move.left;
+        }
         return null;
     }
 }

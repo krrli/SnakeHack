@@ -18,7 +18,7 @@ public class PossibleFieldsFinder {
     }
 
     private void findNextField(ArrayList<GameField> closedList, ArrayList<GameField> openList, PlayerDestinationBundle bundle, GameField[][] gameArea) {
-        closedList.add(this.getGameFieldByPosition(gameArea, bundle.getCurrentPosition()));
+        closedList.add(AreaHelper.GetGameFieldByPosition(gameArea, bundle.getCurrentPosition()));
 
         this.lookForWalkableFields(closedList, openList, bundle.getCurrentPosition(), gameArea);
 
@@ -26,7 +26,7 @@ public class PossibleFieldsFinder {
         openList.remove(bestOption);
 
         if(bestOptionIsCurrentPosition(bundle, bestOption)){
-            closedList.add(this.getGameFieldByPosition(gameArea, bundle.getCurrentPosition()));
+            closedList.add(AreaHelper.GetGameFieldByPosition(gameArea, bundle.getCurrentPosition()));
             return;
         }
 
@@ -47,7 +47,7 @@ public class PossibleFieldsFinder {
     }
 
     private void lookForWalkableFields(ArrayList<GameField> closedList, ArrayList<GameField> openList, Point player, GameField[][] gameArea) {
-        GameField currentPosition = this.getGameFieldByPosition(gameArea ,player);
+        GameField currentPosition = AreaHelper.GetGameFieldByPosition(gameArea ,player);
 
         if (player.getX() > 0)
         {
@@ -97,9 +97,5 @@ public class PossibleFieldsFinder {
 
     private boolean ListDoesNotContainField(GameField field, ArrayList<GameField> list) {
         return list.contains(field) == false;
-    }
-
-    private GameField getGameFieldByPosition(GameField[][] gameArea, Point position){
-        return gameArea[(int) position.getY()][(int) position.getX()];
     }
 }
