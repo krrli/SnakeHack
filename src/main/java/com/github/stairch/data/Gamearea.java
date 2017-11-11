@@ -12,10 +12,10 @@ public class Gamearea {
      * init every field of gamearea
      */
     public void initGameField(){
-        for(int i=0; i<gameArea.length; i++) {
-            for(int j=0; j<gameArea[i].length; j++) {
-                gameArea[i][j] = new GameField(0,0,false);
-                System.out.println("Values at arr["+i+"]["+j+"] is "+gameArea[i][j]);
+        for(int y=0; y<gameArea.length; y++) {
+            for(int x=0; x<gameArea[y].length; x++) {
+                gameArea[y][x] = new GameField(y,x,false);
+                //System.out.println("Values at arr["+y+"]["+x+"] is "+gameArea[y][x]);
             }
         }
     }
