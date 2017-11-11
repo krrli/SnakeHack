@@ -25,12 +25,12 @@ public class NextMoveFinder {
             GameField nextGameField = pathToDestination.get(1);
             return this.findMoveAccordingToField(currentGameField, nextGameField);
         }
-        catch (OperationNotSupportedException e) {
-            return this.anyPossibleField(bundle.getCurrentPosition(), gameArea);
+        catch (OperationNotSupportedException e) { // NoPathFound
+            return this.anyPossibleMove(bundle.getCurrentPosition(), gameArea);
         }
     }
 
-    private Move anyPossibleField(Point currentPosition, GameField[][] gameArea) {
+    private Move anyPossibleMove(Point currentPosition, GameField[][] gameArea) {
         ArrayList<Move> availableMoves = new ArrayList<>();
         GameField currentField = AreaHelper.GetGameFieldByPosition(gameArea, currentPosition);
 

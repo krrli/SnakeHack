@@ -115,6 +115,7 @@ public class SnakeService {
                     JsonArray asJsonArray = c.getAsJsonArray();
                     int x = asJsonArray.get(0).getAsInt();
                     int y = asJsonArray.get(1).getAsInt();
+
                     if(meX[0] == 0)
                         meX[0] = x;
                     if(meY[0] == 0)
@@ -124,7 +125,7 @@ public class SnakeService {
             });
         }
 
-        Point destination = new Point();
+        Point destination = new Point(gamearea.getGameArea().length, gamearea.getGameArea()[0].length);
         Point currentPosition = new Point();
         currentPosition.setLocation(meX[0], meY[0]);
 
@@ -137,7 +138,9 @@ public class SnakeService {
                 JsonArray foods = f.getAsJsonArray();
                 int foodX = foods.get(0).getAsInt();
                 int foodY = foods.get(1).getAsInt();
-                destination.setLocation(foodX,foodY);
+                //if(this.isCloserToCurrentPosition(currentPosition, destination, new Point(foodX, foodY))){
+                    destination.setLocation(foodX,foodY);
+                //}
             }
             );
         }
@@ -151,5 +154,19 @@ public class SnakeService {
 
         final String responseBody = gson.toJson(moveResponse);
         return Response.status(Response.Status.OK).entity(responseBody).build();
+    }
+
+    private boolean isCloserToCurrentPosition(Point currentPosition, Point destination, Point newDestination) {
+        int distanceOfCurrentDestination = this.getDistanceTo(destination, currentPosition);
+        int distanceOfNewDestination = this.getDistanceTo(newDestination, currentPosition);
+
+        return distanceOfNewDestination < distanceOfCurrentDestination;
+    }
+
+    private int getDistanceTo(Point destination, Point currentPosition) {
+        int xDiff = (int) Math.abs(currentPosition.getX() - destination.getX());
+        int yDiff = (int) Math.abs(currentPosition.getY() - destination.getY());
+
+        return xDiff + yDiff;
     }
 }
