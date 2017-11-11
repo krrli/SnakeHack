@@ -14,8 +14,8 @@ public class Gamearea {
     public void initGameField(){
         for(int y=0; y<gameArea.length; y++) {
             for(int x=0; x<gameArea[y].length; x++) {
-                gameArea[y][x] = new GameField(y,x,false);
-                //System.out.println("Values at arr["+y+"]["+x+"] is "+gameArea[y][x]);
+                gameArea[y][x] = new GameField(x, y,false);
+                System.out.println("Values at arr["+y+"]["+x+"] is "+gameArea[y][x]);
             }
         }
     }
