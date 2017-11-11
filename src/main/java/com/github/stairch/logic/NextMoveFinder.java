@@ -23,7 +23,13 @@ public class NextMoveFinder {
 
             GameField currentGameField = pathToDestination.get(0);
             GameField nextGameField = pathToDestination.get(1);
-            return this.findMoveAccordingToField(currentGameField, nextGameField);
+
+            if(nextGameField.getIsBusy() == false)
+            {
+                return this.findMoveAccordingToField(currentGameField, nextGameField);
+            }
+
+            return this.anyPossibleMove(bundle.getCurrentPosition(), gameArea);
         }
         catch (OperationNotSupportedException e) { // NoPathFound
             return this.anyPossibleMove(bundle.getCurrentPosition(), gameArea);
