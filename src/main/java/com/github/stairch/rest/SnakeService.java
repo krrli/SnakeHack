@@ -1,7 +1,10 @@
 package com.github.stairch.rest;
 
 import com.github.stairch.data.Gamearea;
+import com.github.stairch.data.PlayerDestinationBundle;
 import com.github.stairch.dtos.*;
+import com.github.stairch.logic.NextMoveFinder;
+import com.github.stairch.logic.PathFinder;
 import com.github.stairch.types.HeadType;
 import com.github.stairch.types.Move;
 import com.github.stairch.types.TailType;
@@ -12,6 +15,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.awt.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +101,10 @@ public class SnakeService {
         gamearea.initGameField();
 
 
+
+        final int[] meX = {0};
+        final int[] meY = {0};
+
         JsonElement snakes = object.get("snakes");
         if(snakes != null){
 
@@ -107,13 +115,38 @@ public class SnakeService {
                     JsonArray asJsonArray = c.getAsJsonArray();
                     int x = asJsonArray.get(0).getAsInt();
                     int y = asJsonArray.get(1).getAsInt();
+                    if(meX[0] != 0)
+                        meX[0] = x;
+                    if(meY[0] != 0)
+                        meY[0] = y;
                     gamearea.getField(x,y).setIsBusy(true);
                 });
             });
         }
 
+        Point destination = new Point();
+        Point currentPosition = new Point();
+        currentPosition.setLocation(meX[0], meY[0]);
+
+
+        JsonElement food = object.get("food");
+        if(food != null){
+
+            JsonArray foodAsJsonArray = food.getAsJsonArray();
+            foodAsJsonArray.forEach(f -> {
+                JsonArray foods = f.getAsJsonArray();
+                int foodX = foods.get(0).getAsInt();
+                int foodY = foods.get(1).getAsInt();
+                destination.setLocation(foodX,foodY);
+            }
+            );
+        }
+
+        NextMoveFinder nextMoveFinder = new NextMoveFinder(new PathFinder());
+        Move move = nextMoveFinder.findNextMove(gamearea.getGameArea(), new PlayerDestinationBundle(currentPosition, destination));
+
         final MoveResponseDTO moveResponse = new MoveResponseDTO();
-        moveResponse.setMove(Move.left);
+        moveResponse.setMove(move);
 
 
         final String responseBody = gson.toJson(moveResponse);

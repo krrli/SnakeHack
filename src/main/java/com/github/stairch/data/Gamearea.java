@@ -23,4 +23,8 @@ public class Gamearea {
     public GameField getField(int x, int y){
         return gameArea[y][x];
     }
+
+    public GameField[][] getGameArea(){
+        return this.gameArea;
+    }
 }
