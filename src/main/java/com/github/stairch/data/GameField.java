@@ -6,7 +6,7 @@ public class GameField {
     private final int MOVEMENT_COST = 1;
     private final int x;
     private final  int y;
-    private final boolean isBusy;
+    private boolean isBusy;
     private GameField previousGameField;
     private int g;
 
@@ -56,5 +56,10 @@ public class GameField {
 
     public boolean getIsBusy() {
         return isBusy;
+    }
+
+
+    public void setIsBusy(boolean isBusy) {
+        this.isBusy = isBusy;
     }
 }

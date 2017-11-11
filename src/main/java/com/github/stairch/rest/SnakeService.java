@@ -1,5 +1,6 @@
 package com.github.stairch.rest;
 
+import com.github.stairch.data.Gamearea;
 import com.github.stairch.dtos.*;
 import com.github.stairch.types.HeadType;
 import com.github.stairch.types.Move;
@@ -12,6 +13,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.github.stairch.RestInPeace.BASE_URI;
 
@@ -88,22 +93,29 @@ public class SnakeService {
         JsonObject object = element.getAsJsonObject();
         System.out.println(object);
 
+        Gamearea gamearea = new Gamearea(object.get("height").getAsInt(), object.get("width").getAsInt());
+        gamearea.initGameField();
+
+
         JsonElement snakes = object.get("snakes");
-        if(snakes!= null){
-            JsonElement bla = snakes.getAsJsonArray().get(Integer.parseInt("coords"));
+        if(snakes != null){
 
-            //JsonElement coords = jsonArray.getAsJsonObject().get("coords");
-
-
+            JsonArray snakesAsJsonArray = snakes.getAsJsonArray();
+            snakesAsJsonArray.forEach(s -> {
+                JsonArray coords = s.getAsJsonObject().getAsJsonArray("coords");
+                coords.forEach(c -> {
+                    JsonArray asJsonArray = c.getAsJsonArray();
+                    int x = asJsonArray.get(0).getAsInt();
+                    int y = asJsonArray.get(1).getAsInt();
+                    gamearea.getField(x,y).setIsBusy(true);
+                });
+            });
         }
 
         final MoveResponseDTO moveResponse = new MoveResponseDTO();
         moveResponse.setMove(Move.left);
-/*
-        Gamearea gamearea = new Gamearea(startRequestDTO.getHeight(), startRequestDTO.getWidth());
-        gamearea.initGameField();
 
-*/
+
         final String responseBody = gson.toJson(moveResponse);
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }

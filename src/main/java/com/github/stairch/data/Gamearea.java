@@ -20,12 +20,6 @@ public class Gamearea {
         }
     }
 
-    /*
-    public GameField[][] getGameArea(){
-        return this.gameArea;
-    }*/
-
-
     public GameField getField(int x, int y){
         return gameArea[y][x];
     }
